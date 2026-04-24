@@ -92,7 +92,7 @@ export function About() {
       <div className="container">
         {/* Label */}
         <FadeUp>
-          <p style={{ color: "var(--accent)", fontSize: "1.5rem", letterSpacing: "0.1em", fontFamily: "var(--font-mono)", textTransform: "uppercase", marginBottom: "1.5rem" }}>
+          <p style={{ color: "var(--accent)", fontSize: "0.7rem", letterSpacing: "0.3em", fontFamily: "var(--font-mono)", textTransform: "uppercase", marginBottom: "1.5rem" }}>
             About Me
           </p>
         </FadeUp>
@@ -111,19 +111,19 @@ export function About() {
 
             <FadeUp delay={0.1}>
               <p style={{ color: "var(--muted)", fontSize: "1rem", lineHeight: 1.85, marginBottom: "1.25rem" }}>
-                I&apos;m a frontend-focused creative developer who lives at the intersection of design and engineering. I build high-performance web experiences that feel as good as they look — from scroll-driven animations to real-time 3D environments powered by WebGL.
+                I&apos;m a passionate MERN Stack Developer with a strong focus on building modern, scalable, and high-performance web applications. I specialize in MongoDB, Express.js, React, and Node.js creating full-stack solutions with clean UI/UX and efficient backend architecture.
               </p>
             </FadeUp>
 
             <FadeUp delay={0.15}>
               <p style={{ color: "var(--muted)", fontSize: "1rem", lineHeight: 1.85, marginBottom: "1.25rem" }}>
-                With a background spanning product design, systems architecture, and creative coding, I bring a holistic perspective to every project. I care deeply about craft, performance, and the tiny details that make an experience feel truly alive.
-              </p>
+                Alongside web development, I integrate AI-powered features to build intelligent systems like chat applications, voice assistants, and multi-agent platforms. I&apos;ve worked on projects such as a Multi-Agent AI Career Advisor, a University Voice Assistant with chat integration.
+                </p>
             </FadeUp>
 
             <FadeUp delay={0.2}>
               <p style={{ color: "var(--muted)", fontSize: "1rem", lineHeight: 1.85, marginBottom: "2.5rem" }}>
-                When I&apos;m not pushing the boundaries of what&apos;s possible in a browser, you&apos;ll find me exploring generative art, contributing to open-source, or obsessing over typography and motion design.
+                I&apos;m continuously exploring new technologies and pushing my limits to build impactful solutions in AI, SaaS, and digital products.
               </p>
             </FadeUp>
 
@@ -138,50 +138,37 @@ export function About() {
           </div>
 
           {/* Right — stat cards */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
             {[
               { value: "4+",  label: "Years of Experience" },
               { value: "30+", label: "Projects Shipped"    },
               { value: "12+", label: "Happy Clients"       },
               { value: "∞",   label: "Cups of Coffee"      },
             ].map((stat, i) => (
-              <FadeUp key={stat.label} delay={0.1 + i * 0.09}>
-                <div
-                  className="group"
-                  style={{ position: "relative", overflow: "hidden", borderRadius: "16px", height: "88px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", transition: "background 0.3s, border-color 0.3s", cursor: "default" }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.background = "rgba(200,255,0,0.06)";
-                    el.style.borderColor = "rgba(200,255,0,0.35)";
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.background = "rgba(255,255,255,0.03)";
-                    el.style.borderColor = "rgba(255,255,255,0.08)";
-                  }}
-                >
-                  {/* Left accent bar */}
-                  <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "3px", background: "var(--accent)" }} />
-
-                  {/* Default: big number centered */}
-                  <div className="group-hover:opacity-0 group-hover:scale-75" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", transition: "opacity 0.3s, transform 0.3s" }}>
-                    <span style={{ fontSize: "clamp(2rem, 3vw, 2.6rem)", fontWeight: 700, color: "var(--accent)", lineHeight: 1, textShadow: "0 0 24px rgba(200,255,0,0.4)" }}>
-                      {stat.value}
-                    </span>
-                  </div>
-
-                  {/* Hover: label + dotted line + number */}
-                  <div className="opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 1.75rem", transition: "opacity 0.3s, transform 0.3s" }}>
-                    <span style={{ color: "var(--muted)", fontSize: "0.7rem", letterSpacing: "0.2em", fontFamily: "var(--font-mono)", textTransform: "uppercase", whiteSpace: "nowrap" }}>
-                      {stat.label}
-                    </span>
-                    <div style={{ flex: 1, margin: "0 1.25rem", height: "1px", background: "repeating-linear-gradient(90deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 3px, transparent 3px, transparent 9px)" }} />
-                    <span style={{ fontSize: "clamp(2rem, 3vw, 2.6rem)", fontWeight: 700, color: "var(--accent)", lineHeight: 1, textShadow: "0 0 24px rgba(200,255,0,0.4)", whiteSpace: "nowrap" }}>
-                      {stat.value}
-                    </span>
-                  </div>
-                </div>
-              </FadeUp>
+              <motion.div
+                key={stat.label}
+                ref={(() => { const r = useRef<HTMLDivElement>(null); return r; })()}
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-5%" }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  borderRadius: "14px", padding: "0 1.5rem",
+                  height: "76px",
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  position: "relative", overflow: "hidden",
+                }}
+              >
+                <div style={{ position: "absolute", left: 0, top: "22%", bottom: "22%", width: "2px", borderRadius: "2px", background: "var(--accent)" }} />
+                <span style={{ color: "var(--muted)", fontSize: "0.78rem", fontFamily: "var(--font-mono)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                  {stat.label}
+                </span>
+                <span style={{ color: "var(--accent)", fontSize: "1.9rem", fontWeight: 700, fontFamily: "var(--font-mono)", lineHeight: 1 }}>
+                  {stat.value}
+                </span>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -292,7 +279,7 @@ export function Skills() {
               Skills &amp; Expertise
             </h2>
             <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.7, maxWidth: "280px", textAlign: "right" }}>
-              Built over years of shipping real products — from design systems to 3D experiences.
+              Built over years of shipping real products from design systems to 3D experiences.
             </p>
           </motion.div>
         </div>
