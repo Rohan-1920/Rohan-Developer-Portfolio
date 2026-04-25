@@ -45,10 +45,43 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 function ContactForm() {
   const [sent, setSent] = useState(false);
   const [focused, setFocused] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSent(true);
+    setErrorMessage(null);
+    setIsSubmitting(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      name: String(formData.get("name") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      subject: String(formData.get("subject") || "").trim(),
+      message: String(formData.get("message") || "").trim(),
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const data = (await res.json().catch(() => null)) as { error?: string; details?: string } | null;
+        const reason = [data?.error, data?.details].filter(Boolean).join(" ");
+        throw new Error(reason || "Failed to send message");
+      }
+
+      setSent(true);
+      form.reset();
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const field = (name: string): React.CSSProperties => ({
@@ -119,11 +152,17 @@ function ContactForm() {
           {/* Submit */}
           <button type="submit"
             style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.6rem", background: "var(--accent)", color: "#0d0d0d", border: "none", borderRadius: "9999px", padding: "0.9rem 2rem", fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-mono)", cursor: "pointer", marginTop: "0.5rem", transition: "opacity 0.2s, transform 0.2s" }}
+            disabled={isSubmitting}
             onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = "0.85"; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)"; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = "1"; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)"; }}
           >
-            Send Message <ArrowUpRight size={16} />
+            {isSubmitting ? "Sending..." : "Send Message"} <ArrowUpRight size={16} />
           </button>
+          {errorMessage && (
+            <p style={{ color: "#fda4af", fontSize: "0.8rem", marginTop: "0.2rem" }}>
+              {errorMessage}
+            </p>
+          )}
         </motion.form>
       )}
     </AnimatePresence>

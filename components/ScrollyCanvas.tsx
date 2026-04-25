@@ -43,7 +43,7 @@ function Section0() {
 
 function Section1() {
   return (
-    <div className="absolute inset-0 flex items-center justify-start px-8 md:px-20 lg:px-32">
+    <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
       <div className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.3em] mb-5 font-mono" style={{ color: "var(--muted)" }}>
           01 / Mission
@@ -61,7 +61,7 @@ function Section1() {
 
 function Section2() {
   return (
-    <div className="absolute inset-0 flex items-center justify-end px-8 md:px-20 lg:px-32 text-right">
+    <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
       <div className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.3em] mb-5 font-mono" style={{ color: "var(--muted)" }}>
           02 / Craft
@@ -200,6 +200,19 @@ export function ScrollyCanvas() {
         {/* Vignette */}
         <div className="absolute inset-0 z-[1] pointer-events-none"
           style={{ background: "radial-gradient(ellipse at center, transparent 30%, rgba(13,13,13,0.7) 100%)" }} />
+
+        {/* Subtle background grid */}
+        <div
+          className="absolute inset-0 z-[2] pointer-events-none"
+          style={{
+            opacity: 0.24,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+            maskImage: "radial-gradient(circle at center, black 35%, transparent 85%)",
+            WebkitMaskImage: "radial-gradient(circle at center, black 35%, transparent 85%)",
+          }}
+        />
 
         {/* Active section — AnimatePresence swaps cleanly */}
         <div className="absolute inset-0 z-10">

@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { SiGithub } from "react-icons/si";
 
 const projects = [
   {
@@ -15,6 +16,7 @@ const projects = [
     desc: "An AI-powered voice assistant built for university environments. Handles queries, navigation, and student support through natural language.",
     accent: "#c8ff00",
     link: "#",
+    github: "https://github.com/Rohan-1920/University-Voice-Assistant-",
   },
   {
     id: 2,
@@ -26,6 +28,7 @@ const projects = [
     desc: "A rapid-build hackathon project leveraging AI tooling. Built end-to-end in under 48 hours with modern AI-assisted development workflows.",
     accent: "#60a5fa",
     link: "#",
+    github: "https://github.com/Rohan-1920/Hackathon-0",
   },
   {
     id: 3,
@@ -37,6 +40,7 @@ const projects = [
     desc: "Automated PR specification toolkit. Streamlines code review workflows with intelligent spec generation and shell-based automation.",
     accent: "#a78bfa",
     link: "#",
+    github: "https://github.com/Rohan-1920/spec-kit",
   },
   {
     id: 4,
@@ -48,6 +52,7 @@ const projects = [
     desc: "WebGL-powered interactive portfolio for a renowned architecture firm. Real-time ray-marched environments and generative visuals.",
     accent: "#34d399",
     link: "#",
+    github: "#",
   },
 ];
 
@@ -154,16 +159,42 @@ function ProjectCard({
             </span>
           </div>
 
-          {/* Arrow button */}
-          <div style={{
-            width: "36px", height: "36px", borderRadius: "50%",
-            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-            background: isHovered ? project.accent : "rgba(255,255,255,0.06)",
-            border: `1px solid ${isHovered ? project.accent : "rgba(255,255,255,0.1)"}`,
-            transform: isHovered ? "translate(2px,-2px)" : "translate(0,0)",
-            transition: "all 0.3s",
-          }}>
-            <ArrowUpRight size={15} style={{ color: isHovered ? "#0d0d0d" : "var(--fg)" }} />
+          {/* Quick actions */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${project.title} GitHub repository`}
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+                textDecoration: "none",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "var(--fg)",
+                transition: "all 0.25s",
+              }}
+            >
+              <SiGithub size={14} />
+            </a>
+            <div
+              style={{
+                width: "36px", height: "36px", borderRadius: "50%",
+                display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                background: isHovered ? project.accent : "rgba(255,255,255,0.06)",
+                border: `1px solid ${isHovered ? project.accent : "rgba(255,255,255,0.1)"}`,
+                transform: isHovered ? "translate(2px,-2px)" : "translate(0,0)",
+                transition: "all 0.3s",
+              }}
+            >
+              <ArrowUpRight size={15} style={{ color: isHovered ? "#0d0d0d" : "var(--fg)" }} />
+            </div>
           </div>
         </div>
 

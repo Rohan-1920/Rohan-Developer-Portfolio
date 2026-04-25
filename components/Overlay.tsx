@@ -1,13 +1,11 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useState } from "react";
 
-const navLinks = ["Work", "About", "Skills", "Contact"];
+const navLinks = ["Work", "About", "Skills", "Experience", "Study", "Services", "Contact"];
 
 export function NavBar() {
   const { scrollY } = useScroll();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const bgOpacity  = useTransform(scrollY, [0, 80], [0, 1]);
   const borderOpacity = useTransform(scrollY, [0, 80], [0, 1]);
@@ -88,7 +86,7 @@ export function NavBar() {
             ))}
           </nav>
 
-          {/* ── Right side: CTA + hamburger ── */}
+          {/* ── Right side: CTA ── */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             {/* Hire me button */}
             <a
@@ -116,87 +114,9 @@ export function NavBar() {
             >
               Hire me
             </a>
-
-            {/* Hamburger — mobile only */}
-            <button
-              className="flex md:hidden"
-              onClick={() => setMenuOpen(!menuOpen)}
-              style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", display: "flex", flexDirection: "column", gap: "5px" }}
-              aria-label="Toggle menu"
-            >
-              {[0, 1, 2].map((i) => (
-                <motion.span
-                  key={i}
-                  style={{ display: "block", width: "22px", height: "2px", background: "var(--fg)", borderRadius: "2px", transformOrigin: "center" }}
-                  animate={
-                    menuOpen
-                      ? i === 0 ? { rotate: 45, y: 7 }
-                      : i === 1 ? { opacity: 0 }
-                      : { rotate: -45, y: -7 }
-                      : { rotate: 0, y: 0, opacity: 1 }
-                  }
-                  transition={{ duration: 0.25 }}
-                />
-              ))}
-            </button>
           </div>
         </div>
       </motion.header>
-
-      {/* ── Mobile menu ── */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              position: "fixed", top: "68px", left: 0, right: 0, zIndex: 49,
-              background: "rgba(13,13,13,0.97)",
-              borderBottom: "1px solid rgba(255,255,255,0.08)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              padding: "1.5rem",
-              display: "flex", flexDirection: "column", gap: "0.5rem",
-            }}
-          >
-            {navLinks.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  color: "var(--fg)", fontSize: "1rem", fontWeight: 500,
-                  textDecoration: "none", padding: "0.75rem 1rem",
-                  borderRadius: "10px", transition: "background 0.2s",
-                }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.06)")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "transparent")}
-              >
-                {item}
-              </a>
-            ))}
-            <a
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
-              style={{
-                marginTop: "0.5rem", textAlign: "center",
-                background: "var(--accent)", color: "#0d0d0d",
-                fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em",
-                textTransform: "uppercase", fontFamily: "var(--font-mono)",
-                padding: "0.75rem", borderRadius: "9999px", textDecoration: "none",
-              }}
-            >
-              Hire me
-            </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 }
-
-// Need AnimatePresence for mobile menu
-import { AnimatePresence } from "framer-motion";

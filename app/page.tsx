@@ -1,6 +1,9 @@
 import { ScrollyCanvas } from "@/components/ScrollyCanvas";
 import { NavBar } from "@/components/Overlay";
 import { About, Skills } from "@/components/About";
+import { Experience } from "@/components/Experience";
+import { Study } from "@/components/Study";
+import { Services } from "@/components/Services";
 import { Projects } from "@/components/Projects";
 import { Contact } from "@/components/Contact";
 
@@ -19,10 +22,19 @@ export default function Home() {
       {/* 3 — Skills & Expertise */}
       <Skills />
 
-      {/* 4 — Project Case Studies */}
+      {/* 4 — Experience */}
+      <Experience />
+
+      {/* 5 — Study */}
+      <Study />
+
+      {/* 6 — Services */}
+      <Services />
+
+      {/* 7 — Project Case Studies */}
       <Projects />
 
-      {/* 5 — Contact */}
+      {/* 8 — Contact */}
       <Contact />
 
       {/* Footer */}

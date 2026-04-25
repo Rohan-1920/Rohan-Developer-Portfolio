@@ -2,46 +2,96 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import type { IconType } from "react-icons";
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiJavascript,
+  SiNodedotjs,
+  SiOpenai,
+  SiLangchain,
+  SiGithubcopilot,
+  SiPerplexity,
+  SiExpress,
+  SiMongodb,
+  SiTailwindcss,
+  SiFramer,
+  SiRedux,
+  SiGit,
+  SiDocker,
+  SiPython,
+  SiVercel,
+  SiNetlify,
+  SiClaude,
+} from "react-icons/si";
 
-const skillGroups = [
+type SkillItem = {
+  name: string;
+  icon: IconType;
+  color: string;
+  pct: number;
+};
+
+type SkillCategory = {
+  label: string;
+  accent: string;
+  items: SkillItem[];
+};
+
+const skillCategories: SkillCategory[] = [
   {
-    category: "Frontend",
-    color: "#c8ff00",
-    skills: [
-      { name: "React / Next.js",  pct: 92 },
-      { name: "TypeScript",       pct: 88 },
-      { name: "Framer Motion",    pct: 85 },
-      { name: "Tailwind CSS",     pct: 95 },
+    label: "MERN Core",
+    accent: "#C8FF00",
+    items: [
+      { name: "MongoDB", icon: SiMongodb, color: "#47A248", pct: 91 },
+      { name: "Express.js", icon: SiExpress, color: "#FFFFFF", pct: 89 },
+      { name: "React", icon: SiReact, color: "#61DAFB", pct: 92 },
+      { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E", pct: 90 },
     ],
   },
   {
-    category: "Creative Dev",
-    color: "#60a5fa",
-    skills: [
-      { name: "WebGL / Three.js", pct: 75 },
-      { name: "GSAP",             pct: 80 },
-      { name: "Canvas API",       pct: 82 },
-      { name: "GLSL Shaders",     pct: 60 },
+    label: "Frontend",
+    accent: "#60A5FA",
+    items: [
+      { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", pct: 90 },
+      { name: "TypeScript", icon: SiTypescript, color: "#3178C6", pct: 86 },
+      { name: "Next.js", icon: SiNextdotjs, color: "#FFFFFF", pct: 88 },
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4", pct: 93 },
+      { name: "Redux", icon: SiRedux, color: "#764ABC", pct: 80 },
+      { name: "Framer Motion", icon: SiFramer, color: "#0055FF", pct: 82 },
     ],
   },
   {
-    category: "Design",
-    color: "#a78bfa",
-    skills: [
-      { name: "Figma",            pct: 90 },
-      { name: "Motion Design",    pct: 78 },
-      { name: "Design Systems",   pct: 85 },
-      { name: "UI / UX",          pct: 88 },
+    label: "Backend",
+    accent: "#34D399",
+    items: [
+      { name: "Node.js APIs", icon: SiNodedotjs, color: "#5FA04E", pct: 89 },
+      { name: "Express Middleware", icon: SiExpress, color: "#FFFFFF", pct: 87 },
+      { name: "Python", icon: SiPython, color: "#3776AB", pct: 76 },
+      { name: "Git", icon: SiGit, color: "#F05032", pct: 84 },
+      { name: "Docker", icon: SiDocker, color: "#2496ED", pct: 78 },
     ],
   },
   {
-    category: "Backend",
-    color: "#34d399",
-    skills: [
-      { name: "Node.js",          pct: 80 },
-      { name: "PostgreSQL",       pct: 72 },
-      { name: "REST / GraphQL",   pct: 83 },
-      { name: "Prisma / MongoDB", pct: 75 },
+    label: "Deployment",
+    accent: "#F59E0B",
+    items: [
+      { name: "Vercel", icon: SiVercel, color: "#FFFFFF", pct: 86 },
+      { name: "Netlify", icon: SiNetlify, color: "#00C7B7", pct: 80 },
+      { name: "Docker Deploy", icon: SiDocker, color: "#2496ED", pct: 77 },
+      { name: "Version Control", icon: SiGit, color: "#F05032", pct: 88 },
+    ],
+  },
+  {
+    label: "Other Tools",
+    accent: "#F472B6",
+    items: [
+      { name: "ChatGPT", icon: SiOpenai, color: "#10A37F", pct: 92 },
+      { name: "Claude", icon: SiClaude, color: "#D97706", pct: 88 },
+      { name: "LangChain", icon: SiLangchain, color: "#00A67E", pct: 78 },
+      { name: "GitHub Copilot", icon: SiGithubcopilot, color: "#FFFFFF", pct: 85 },
+      { name: "Perplexity", icon: SiPerplexity, color: "#20B8CD", pct: 82 },
     ],
   },
 ];
@@ -61,25 +111,88 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-function SkillBar({ name, pct, color, delay }: { name: string; pct: number; color: string; delay: number }) {
+function SkillBar({ skill, delay }: { skill: SkillItem; delay: number }) {
+  const Icon = skill.icon;
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-5%" });
   return (
-    <div ref={ref} className="mb-5">
-      <div className="flex items-center justify-between mb-2">
-        <span style={{ color: "var(--fg)", fontSize: "0.9rem" }}>{name}</span>
-        <span style={{ color, fontSize: "0.8rem", fontFamily: "var(--font-mono)" }}>{pct}%</span>
+    <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: "0.45rem" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.8rem" }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "var(--fg)", fontSize: "0.8rem", fontWeight: 600 }}>
+          <Icon size={15} color={skill.color} />
+          {skill.name}
+        </span>
+        <span style={{ color: skill.color, fontSize: "0.76rem", fontFamily: "var(--font-mono)", letterSpacing: "0.06em" }}>
+          {skill.pct}%
+        </span>
       </div>
-      <div className="w-full rounded-full overflow-hidden" style={{ height: "6px", background: "rgba(255,255,255,0.07)" }}>
+      <div style={{ height: "5px", borderRadius: "9999px", background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
         <motion.div
-          className="h-full rounded-full"
-          style={{ background: color, boxShadow: `0 0 10px ${color}55` }}
           initial={{ width: 0 }}
-          animate={isInView ? { width: `${pct}%` } : { width: 0 }}
-          transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+          animate={isInView ? { width: `${skill.pct}%` } : { width: 0 }}
+          transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+          style={{ height: "100%", borderRadius: "9999px", background: skill.color }}
         />
       </div>
     </div>
+  );
+}
+
+function SkillCard({
+  label,
+  accent,
+  items,
+  featured = false,
+}: {
+  label: string;
+  accent: string;
+  items: SkillItem[];
+  featured?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-5%" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 18 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.9rem",
+        borderRadius: "18px",
+        border: "1px solid rgba(255,255,255,0.1)",
+        background: "rgba(255,255,255,0.03)",
+        padding: featured ? "1.1rem" : "1rem",
+        position: "relative",
+        overflow: "hidden",
+        height: "100%",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <p
+          style={{
+            color: accent,
+            fontSize: "0.72rem",
+            letterSpacing: "0.2em",
+            fontFamily: "var(--font-mono)",
+            textTransform: "uppercase",
+          }}
+        >
+          {label}
+        </p>
+        <span style={{ color: "var(--muted)", fontSize: "0.72rem", fontFamily: "var(--font-mono)" }}>
+          {items.length} tools
+        </span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+        {items.map((skill, index) => (
+          <SkillBar key={`${label}-${skill.name}`} skill={skill} delay={index * 0.06} />
+        ))}
+      </div>
+    </motion.div>
   );
 }
 
@@ -177,86 +290,12 @@ export function About() {
   );
 }
 
-// ─── Skill card with animations ──────────────────────────────────────────────
-function SkillCard({ group, gi }: { group: typeof skillGroups[0]; gi: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-5%" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: gi * 0.12, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -4, transition: { duration: 0.25 } }}
-      style={{
-        borderRadius: "20px", padding: "2rem",
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.08)",
-        height: "100%", position: "relative", overflow: "hidden",
-        cursor: "default",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = `${group.color}30`;
-        (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.05)";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.08)";
-        (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.03)";
-      }}
-    >
-      {/* Subtle corner glow */}
-      <div style={{
-        position: "absolute", top: 0, right: 0,
-        width: "120px", height: "120px", borderRadius: "50%",
-        background: `radial-gradient(circle, ${group.color}18 0%, transparent 70%)`,
-        pointerEvents: "none",
-      }} />
-
-      {/* Card header */}
-      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.75rem" }}>
-        {/* Animated pulsing dot */}
-        <div style={{ position: "relative", width: "12px", height: "12px", flexShrink: 0 }}>
-          <motion.div
-            style={{ position: "absolute", inset: 0, borderRadius: "50%", background: group.color }}
-            animate={{ scale: [1, 1.5, 1], opacity: [1, 0, 1] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: gi * 0.4 }}
-          />
-          <div style={{ position: "absolute", inset: "2px", borderRadius: "50%", background: group.color, boxShadow: `0 0 8px ${group.color}` }} />
-        </div>
-
-        <span style={{ color: group.color, fontSize: "0.7rem", letterSpacing: "0.25em", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
-          {group.category}
-        </span>
-
-        {/* Skill count badge */}
-        <motion.span
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.4, delay: gi * 0.12 + 0.3 }}
-          style={{
-            marginLeft: "auto", fontSize: "0.65rem", fontFamily: "var(--font-mono)",
-            color: group.color, background: `${group.color}15`,
-            border: `1px solid ${group.color}30`,
-            borderRadius: "9999px", padding: "2px 8px",
-          }}
-        >
-          {group.skills.length} skills
-        </motion.span>
-      </div>
-
-      {/* Skill bars */}
-      {group.skills.map((skill, si) => (
-        <SkillBar key={skill.name} name={skill.name} pct={skill.pct} color={group.color} delay={gi * 0.12 + si * 0.09} />
-      ))}
-    </motion.div>
-  );
-}
-
 // ─── Skills ───────────────────────────────────────────────────────────────────
 export function Skills() {
   const headingRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(headingRef, { once: true });
+  const primaryCategory = skillCategories[0];
+  const secondaryCategories = skillCategories.slice(1);
 
   return (
     <section id="skills" className="relative z-20" style={{ background: "var(--bg)", paddingTop: "7rem", paddingBottom: "14rem" }}>
@@ -279,17 +318,35 @@ export function Skills() {
               Skills &amp; Expertise
             </h2>
             <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.7, maxWidth: "280px", textAlign: "right" }}>
-              Built over years of shipping real products from design systems to 3D experiences.
+              MERN stack focused skillset with production-ready frontend, backend, and deployment tools.
             </p>
           </motion.div>
         </div>
 
-        {/* 2×2 skill cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1.5rem" }}>
-          {skillGroups.map((group, gi) => (
-            <SkillCard key={group.category} group={group} gi={gi} />
-          ))}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.12 }}
+          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+        >
+          <SkillCard
+            label={primaryCategory.label}
+            accent={primaryCategory.accent}
+            items={primaryCategory.items}
+            featured
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {secondaryCategories.map((category) => (
+              <SkillCard
+                key={category.label}
+                label={category.label}
+                accent={category.accent}
+                items={category.items}
+              />
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
