@@ -10,6 +10,7 @@ import { Projects } from "@/components/Projects";
 import { TechnicalStack } from "@/components/TechnicalStack";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import { OperationalStatus } from "@/components/OperationalStatus";
 
 export default function Home() {
   return (
@@ -47,6 +48,7 @@ export default function Home() {
       {/* 10 — Contact */}
       <Contact />
 
+      <OperationalStatus />
       <Footer />
     </>
   );

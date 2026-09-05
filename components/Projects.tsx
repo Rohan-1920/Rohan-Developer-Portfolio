@@ -22,99 +22,96 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-function ArchitecturePreview({ project }: { project: Project }) {
-  return (
-    <div className="project-preview" aria-label={`${project.title} architecture preview`}>
-      <div className="project-preview-bar">
-        <span className="project-preview-dots" aria-hidden="true"><i /><i /><i /></span>
-        <span className="project-preview-path">/{project.title.toLowerCase().replaceAll(" ", "-")}</span>
-      </div>
-      <div className="project-diagram">
-        {project.preview.map((node, index) => (
-          <div className="project-diagram-node" key={node}>
-            <span className="project-diagram-index">0{index + 1}</span>
-            <span>{node}</span>
-            {index < project.preview.length - 1 && <ArrowUpRight className="project-diagram-arrow" size={14} aria-hidden="true" />}
-          </div>
-        ))}
-      </div>
-      <p className="project-preview-note">Architecture view · No screenshot available</p>
-    </div>
-  );
-}
-
-function StackTag({ label }: { label: string }) {
-  return <span className="project-stack-tag">{label}</span>;
-}
-
 function ProjectActions({ project }: { project: Project }) {
   return (
-    <div className="project-actions">
+    <div className="mt-auto flex flex-col gap-2 pt-5 sm:flex-row sm:items-center">
       {project.live ? (
-        <a href={project.live} target="_blank" rel="noreferrer" className="project-action project-action-primary">
-          Live System <ExternalLink size={14} aria-hidden="true" />
+        <a
+          href={project.live}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex min-h-[44px] items-center justify-center gap-2 border border-white bg-white px-4 py-2 font-mono text-xs font-semibold text-canvas transition-colors duration-200 ease-out hover:bg-zinc-200"
+        >
+          Live Deployment <ExternalLink size={14} aria-hidden="true" />
         </a>
       ) : null}
       {project.github ? (
-        <a href={project.github} target="_blank" rel="noreferrer" className="project-action">
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex min-h-[44px] items-center justify-center gap-2 border border-hairline-hover px-4 py-2 font-mono text-xs text-zinc-300 transition-colors duration-200 ease-out hover:border-white hover:text-white"
+        >
           Source Code <ArrowUpRight size={14} aria-hidden="true" />
         </a>
       ) : (
-        <span className="project-action project-action-disabled">No public source listed</span>
+        <span className="font-mono text-xs text-zinc-500">Source link pending verification</span>
       )}
     </div>
   );
 }
 
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <article className="hairline-card card-top-light group flex min-w-0 flex-col p-5 transition-colors duration-200 ease-out hover:border-white/[0.18] hover:bg-white/[0.02] sm:p-7">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-white/[0.08] pb-4 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-500">
+        <span>
+          SYS // 0{project.index} · <span className="text-emerald-accent">● PRODUCTION</span>
+        </span>
+        <span>DOMAIN: {project.category}</span>
+      </div>
+
+      <div className="flex flex-1 flex-col">
+        <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-500">{project.year}</p>
+        <h3 className="mb-7 text-xl font-semibold tracking-tight text-white">{project.title}</h3>
+
+        <div className="max-w-2xl space-y-7">
+          <div>
+            <p className="mb-1 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-500">Core friction</p>
+            <p className="max-w-[58ch] text-sm leading-7 text-zinc-400">{project.problem}</p>
+          </div>
+          <div>
+            <p className="mb-1 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-500">Engineered execution</p>
+            <p className="max-w-[58ch] text-sm leading-7 text-zinc-400">{project.solution}</p>
+          </div>
+          <div>
+            <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-500">Key architecture decisions</p>
+            <ul className="space-y-3 pl-4 text-sm leading-7 text-zinc-400 marker:text-emerald-accent">
+              {project.architecture.map((decision) => <li key={decision}>{decision}</li>)}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-6 flex flex-wrap gap-2" aria-label={`${project.title} technology stack`}>
+          {project.stack.map((technology) => (
+            <span key={technology} className="rounded border border-white/[0.08] bg-white/[0.04] px-2 py-0.5 font-mono text-xs text-zinc-300">
+              {technology}
+            </span>
+          ))}
+        </div>
+
+        <ProjectActions project={project} />
+      </div>
+    </article>
+  );
+}
+
 export function Projects() {
   return (
-    <section id="work" className="relative z-20 project-section" style={{ background: "var(--bg)" }}>
+    <section id="work" className="project-section relative z-20" style={{ background: "var(--bg)" }}>
       <div className="container">
         <Reveal>
           <p className="section-kicker">Selected work</p>
           <div className="project-section-heading">
             <h2>Engineering proof, not just project tiles.</h2>
-            <p>Verified builds presented through the constraints, decisions, and systems behind them.</p>
+            <p>High-density systems presented through the constraints, decisions, and operational flows behind them.</p>
           </div>
         </Reveal>
 
-        <div className="project-case-studies" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
+        <div className="grid min-w-0 gap-6 lg:grid-cols-2">
           {projects.map((project, index) => (
             <Reveal key={project.index} delay={index * 0.05}>
-              <article className={`project-case-study ${index % 2 === 1 ? "project-case-study-reverse" : ""}`}>
-                <ArchitecturePreview project={project} />
-                <div className="project-case-study-copy">
-                  <div className="project-case-study-meta">
-                    <span>{project.index} {"//"} {project.category}</span>
-                    <span>{project.year}</span>
-                  </div>
-                  <h3>{project.title}</h3>
-                  <p className="project-role">{project.role}</p>
-
-                  <div className="project-narrative">
-                    <div>
-                      <p className="project-field-label">Problem statement</p>
-                      <p>{project.problem}</p>
-                    </div>
-                    <div>
-                      <p className="project-field-label">Engineered solution</p>
-                      <p>{project.solution}</p>
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="project-field-label">Architecture highlights</p>
-                    <ul className="project-highlights">
-                      {project.architecture.map((highlight) => <li key={highlight}>{highlight}</li>)}
-                    </ul>
-                  </div>
-
-                  <div className="project-stack">
-                    {project.stack.map((technology) => <StackTag key={technology} label={technology} />)}
-                  </div>
-                  <ProjectActions project={project} />
-                </div>
-              </article>
+              <ProjectCard project={project} />
             </Reveal>
           ))}
         </div>

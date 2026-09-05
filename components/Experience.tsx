@@ -28,7 +28,7 @@ export const experienceEntries: ExperienceEntry[] = [
   {
     role: "Full Stack Developer",
     organization: "TechTicks",
-    period: "Jun 2025 - Mar 2026",
+    period: "Jun 2025 - Present",
     contributions: [
       "Built a real-time chat application similar to WhatsApp with secure messaging, responsive UI, and scalable backend APIs.",
       "Developed a PDF Reporting & Data Visualization Automation System to generate structured reports and dashboard-ready insights.",
@@ -37,7 +37,7 @@ export const experienceEntries: ExperienceEntry[] = [
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "WebSockets"],
   },
   {
-    role: "Self-Employed · AI Agent Developer",
+    role: "Self-Employed · Full Stack AI Engineer",
     organization: "Freelance",
     period: "Dec 2025 - Present (5 months)",
     contributions: [

@@ -5,36 +5,28 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 
 const studies = [
   {
-    title: "BS Data Science (Bachelor's)",
+    title: "BS Data Science",
     institute: "Virtual University of Pakistan",
     duration: "Ongoing",
-    details:
-      "Currently pursuing a Bachelor's in Data Science with focus on statistics, machine learning foundations, data analysis, and practical software implementation.",
-    accent: "#c8ff00",
+    details: "Statistics, machine learning foundations, data analysis, and practical software implementation.",
   },
   {
-    title: "DAE Electrical (3 Years)",
-    institute: "TEVTA",
+    title: "DAE Electrical",
+    institute: "TEVTA · 3 Years",
     duration: "Completed",
-    details:
-      "Completed 3-year Diploma of Associate Engineering in Electrical Technology, building strong technical fundamentals and applied engineering discipline.",
-    accent: "#60a5fa",
+    details: "Technical fundamentals and applied engineering discipline across a three-year diploma program.",
   },
   {
     title: "Certified Chinese Language Course",
     institute: "NAVTTC",
-    duration: "3 Months · Completed",
-    details:
-      "Completed a certified 3-month Chinese language course with focus on foundational communication and practical learning.",
-    accent: "#f59e0b",
+    duration: "3 Months",
+    details: "Foundational communication and practical language learning through a certified course.",
   },
   {
-    title: "AutoCAD Training (Mechanical & Civil)",
-    institute: "Professional Technical Training",
+    title: "AutoCAD Training",
+    institute: "Professional Technical Training · Mechanical & Civil",
     duration: "Completed",
-    details:
-      "Completed practical AutoCAD training in both Mechanical and Civil drafting with hands-on design and drawing workflows.",
-    accent: "#a78bfa",
+    details: "Hands-on drafting and design workflows across mechanical and civil drawing systems.",
   },
 ];
 
@@ -42,6 +34,7 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-6%" });
   const reduceMotion = useReducedMotion();
+
   return (
     <motion.div
       ref={ref}
@@ -56,109 +49,39 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 
 export function Study() {
   return (
-    <section
-      id="study"
-      className="relative z-20 study-section"
-      style={{ background: "var(--bg)", paddingTop: "8rem", paddingBottom: "6rem" }}
-    >
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)" }}
-      />
+    <section id="study" className="study-section relative z-20 bg-canvas py-20 md:py-28">
+      <div className="absolute left-0 right-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)]" />
 
       <div className="container">
         <FadeUp>
-          <p
-            style={{
-              color: "var(--accent)",
-              fontSize: "0.7rem",
-              letterSpacing: "0.3em",
-              fontFamily: "var(--font-mono)",
-              textTransform: "uppercase",
-              marginBottom: "1rem",
-            }}
-          >
-            Study
-          </p>
+          <p className="section-kicker">Study / foundations</p>
         </FadeUp>
 
         <FadeUp delay={0.05}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "space-between",
-              gap: "2rem",
-              flexWrap: "wrap",
-              marginBottom: "2rem",
-            }}
-          >
-            <h2
-              style={{
-                fontSize: "clamp(2.1rem, 4.4vw, 3.6rem)",
-                fontWeight: 700,
-                lineHeight: 1.05,
-                color: "var(--fg)",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              Education & Learning
+          <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-8">
+            <h2 className="max-w-3xl text-[clamp(2.1rem,4.4vw,3.6rem)] font-bold leading-[1.05] tracking-tight text-white">
+              Education that compounds the engineering work.
             </h2>
-            <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.7, maxWidth: "320px", textAlign: "right" }}>
-              Academic base and continuous upskilling aligned with modern full stack and AI development.
+            <p className="max-w-xs text-sm leading-7 text-zinc-500 md:text-right">
+              Academic grounding and technical training aligned with full-stack systems, data, and applied problem-solving.
             </p>
           </div>
         </FadeUp>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div className="border-t border-white/[0.08]">
           {studies.map((item, index) => (
             <FadeUp key={item.title} delay={0.08 + index * 0.06}>
-              <div
-                style={{
-                  borderRadius: "18px",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  background: "rgba(255,255,255,0.03)",
-                  padding: "1.2rem 1.35rem",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <span
-                  aria-hidden="true"
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    top: "16%",
-                    bottom: "16%",
-                    width: "2px",
-                    borderRadius: "9999px",
-                    background: item.accent,
-                  }}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "1rem",
-                    flexWrap: "wrap",
-                    marginBottom: "0.6rem",
-                  }}
-                >
-                  <div>
-                    <p style={{ color: "var(--fg)", fontSize: "1rem", fontWeight: 700 }}>{item.title}</p>
-                    <p style={{ color: item.accent, fontSize: "0.78rem", fontFamily: "var(--font-mono)", letterSpacing: "0.12em", textTransform: "uppercase", marginTop: "0.22rem" }}>
-                      {item.institute}
-                    </p>
-                  </div>
-                  <span style={{ color: "var(--muted)", fontSize: "0.74rem", fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                    {item.duration}
-                  </span>
+              <article className="grid gap-4 border-b border-white/[0.08] py-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.35fr)_auto] md:items-center md:gap-8">
+                <div>
+                  <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.14em] text-emerald-accent">0{index + 1} / learning record</p>
+                  <h3 className="text-lg font-semibold tracking-tight text-white">{item.title}</h3>
                 </div>
-                <p style={{ color: "var(--muted)", fontSize: "0.88rem", lineHeight: 1.7 }}>
-                  {item.details}
-                </p>
-              </div>
+                <div>
+                  <p className="font-mono text-xs uppercase tracking-[0.1em] text-zinc-400">{item.institute}</p>
+                  <p className="mt-2 max-w-xl text-sm leading-7 text-zinc-500">{item.details}</p>
+                </div>
+                <p className="font-mono text-xs uppercase tracking-[0.1em] text-zinc-500 md:text-right">{item.duration}</p>
+              </article>
             </FadeUp>
           ))}
         </div>

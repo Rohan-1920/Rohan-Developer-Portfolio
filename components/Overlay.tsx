@@ -12,6 +12,7 @@ const navLinks = [
 
 export function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -22,10 +23,23 @@ export function NavBar() {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsHeaderVisible(currentScrollY <= 12 || currentScrollY < lastScrollY);
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50"
+        className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${isHeaderVisible || isMenuOpen ? "translate-y-0" : "-translate-y-full"}`}
         style={{
           background: "var(--bg)",
           borderBottom: "1px solid var(--border)",
@@ -38,9 +52,6 @@ export function NavBar() {
           <a href="#about" style={{ display: "flex", alignItems: "baseline", gap: "0.65rem", textDecoration: "none", minWidth: 0 }}>
             <span style={{ color: "var(--fg)", fontSize: "0.9rem", fontWeight: 600, letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
               ROHAN MAJEED
-            </span>
-            <span className="hidden lg:inline" style={{ color: "var(--muted)", fontSize: "0.62rem", fontFamily: "var(--font-mono)", letterSpacing: "0.16em" }}>
-              DEVSQUAD
             </span>
           </a>
 
@@ -99,7 +110,7 @@ export function NavBar() {
                 (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
               }}
             >
-              Let&apos;s Talk <span aria-hidden="true">→</span>
+              Let&apos;s Talk
             </a>
             <button
               type="button"
@@ -122,7 +133,7 @@ export function NavBar() {
               </a>
             ))}
             <a href="#contact" onClick={() => setIsMenuOpen(false)} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "1rem", padding: "0.9rem 1rem", color: "var(--bg)", background: "var(--fg)", borderRadius: "6px", fontWeight: 700, textDecoration: "none" }}>
-              Let&apos;s Talk <span aria-hidden="true">→</span>
+              Let&apos;s Talk
             </a>
           </nav>
         )}

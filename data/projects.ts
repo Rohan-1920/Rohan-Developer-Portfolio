@@ -1,85 +1,75 @@
 export type Project = {
   index: string;
-  category: string;
   title: string;
+  category: string;
   year: string;
-  role: string;
   problem: string;
   solution: string;
   architecture: string[];
   stack: string[];
   github: string | null;
   live: string | null;
-  preview: string[];
 };
 
 export const projects: Project[] = [
   {
-    index: "01",
-    category: "AI & VOICE SYSTEMS",
-    title: "University Voice Assistant",
+    index: "1",
+    title: "Twitter AI Assistant",
+    category: "SOCIAL AUTOMATION",
+    year: "2026",
+    problem: "Publishing social content and responding to new conversations manually makes consistent audience engagement difficult.",
+    solution: "A Node.js backend accepts content from n8n and uses a persistent Playwright session to publish posts and AI-assisted replies on X.",
+    architecture: [
+      "A one-time browser login persists session state so posting workflows do not handle credentials on every request.",
+      "A queued action layer serializes browser jobs and tracks processed replies to prevent duplicate automation.",
+    ],
+    stack: ["Node.js", "Express", "Playwright", "n8n", "OpenAI"],
+    github: "https://github.com/Rohan-1920/twitter-ai-assistant",
+    live: null,
+  },
+  {
+    index: "2",
+    title: "Karobaar",
+    category: "FULL-STACK SAAS",
     year: "2025",
-    role: "Lead Developer",
-    problem: "University users need a faster way to handle recurring queries, navigation, and student support requests.",
-    solution: "An AI-powered voice assistant processes natural-language requests and connects them to a university support experience.",
+    problem: "Small business operations need one dependable surface instead of disconnected product, customer, and workflow tools.",
+    solution: "A full-stack business platform connects structured data, authenticated workflows, and responsive product interfaces.",
     architecture: [
-      "Natural-language interaction is central to queries, navigation, and student support.",
-      "PostgreSQL is included in the verified project stack for structured data needs.",
+      "Relational application state keeps operational records consistent across workflows.",
+      "A modular frontend keeps business actions discoverable without adding dashboard noise.",
     ],
-    stack: ["JavaScript", "Python", "PostgreSQL", "HTML", "CSS"],
-    github: "https://github.com/Rohan-1920/University-Voice-Assistant-",
+    stack: ["Next.js", "TypeScript", "Node.js", "PostgreSQL"],
+    github: "https://github.com/Rohan-1920/Small-Business-Platform",
     live: null,
-    preview: ["Voice input", "Intent handling", "Student support"],
   },
   {
-    index: "02",
-    category: "AI-ASSISTED DELIVERY",
-    title: "Hackathon-0",
-    year: "2025",
-    role: "Full Stack Developer",
-    problem: "A hackathon build needs a complete, coherent product direction without sacrificing delivery speed.",
-    solution: "The project uses AI-assisted development workflows to move from concept to an end-to-end implementation in under 48 hours.",
+    index: "3",
+    title: "Lumen YouTube Automation Agent",
+    category: "AI CONTENT AUTOMATION",
+    year: "2026",
+    problem: "Running a YouTube channel end to end requires disconnected research, production, review, publishing, and analytics workflows.",
+    solution: "An approval-first agent pipeline researches topics, writes scripts, generates media, assembles real MP4 videos, and schedules approved content.",
     architecture: [
-      "Claude API and Kiro are listed as part of the AI-assisted development toolchain.",
-      "The verified project description documents end-to-end delivery under 48 hours.",
+      "Specialized agents separate strategy, scripting, thumbnails, SEO, production, publishing, and analytics responsibilities.",
+      "Persistent jobs, quality gates, rights checks, and real-MP4 validation keep automation observable and human-controlled.",
     ],
-    stack: ["Python", "Claude API", "Kiro"],
-    github: "https://github.com/Rohan-1920/Hackathon-0",
+    stack: ["Node.js", "AI APIs", "FFmpeg", "SQLite", "YouTube API"],
+    github: "https://github.com/Rohan-1920/youtube-automation-agent-",
     live: null,
-    preview: ["Product brief", "AI tooling", "Working build"],
   },
   {
-    index: "03",
-    category: "DEVELOPER AUTOMATION",
-    title: "Speckit PR",
-    year: "2024",
-    role: "Backend Engineer",
-    problem: "Code review workflows lose time when PR specifications and implementation context must be assembled manually.",
-    solution: "An automated PR specification toolkit uses intelligent spec generation and shell-based automation to streamline review preparation.",
+    index: "4",
+    title: "AI Automation / CRM",
+    category: "AUTOMATION SYSTEMS",
+    year: "2026",
+    problem: "Lead operations lose accuracy when capture, validation, qualification, and follow-up depend on manual handoffs.",
+    solution: "An n8n pipeline validates incoming leads, scores them, updates CRM records, and triggers targeted communication.",
     architecture: [
-      "Python provides the toolkit implementation layer described by the project.",
-      "PowerShell and shell scripts provide the verified automation surface.",
+      "Webhook and form listeners move lead data into a validated automation pipeline.",
+      "Conditional logic, duplicate detection, and execution monitoring keep handoffs auditable.",
     ],
-    stack: ["Python", "PowerShell", "Shell Script"],
-    github: "https://github.com/Rohan-1920/spec-kit",
+    stack: ["n8n", "Webhooks", "REST APIs", "JavaScript", "CRM"],
+    github: "https://github.com/Rohan-1920/AI-Powered-Lead-Generation-CRM-Automation-System",
     live: null,
-    preview: ["PR input", "Spec generation", "Review context"],
-  },
-  {
-    index: "04",
-    category: "REAL-TIME GRAPHICS",
-    title: "Lumina Studio",
-    year: "2024",
-    role: "Creative Developer",
-    problem: "An architecture firm needs an interactive portfolio experience that communicates space beyond static pages.",
-    solution: "A WebGL-powered portfolio creates real-time ray-marched environments and generative visuals in the browser.",
-    architecture: [
-      "WebGL and GLSL drive the real-time rendering and ray-marched environments.",
-      "Canvas API provides the browser rendering surface for the interactive experience.",
-    ],
-    stack: ["WebGL", "GLSL", "Canvas API"],
-    github: null,
-    live: null,
-    preview: ["WebGL scene", "GLSL shaders", "Canvas output"],
   },
 ];
