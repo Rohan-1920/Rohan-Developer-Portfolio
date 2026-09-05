@@ -19,21 +19,6 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-const principles = [
-  {
-    title: "Architecture over Hype",
-    detail: "Choosing reliable, maintainable primitives over fragile tech fads.",
-  },
-  {
-    title: "End-to-End Ownership",
-    detail: "From database design and API security to responsive frontend and automated deployment.",
-  },
-  {
-    title: "Outcome-Driven Systems",
-    detail: "Every line of code or workflow step must eliminate friction or create measurable utility.",
-  },
-];
-
 // ─── About ────────────────────────────────────────────────────────────────────
 export function About() {
   return (
@@ -47,33 +32,27 @@ export function About() {
           </p>
         </FadeUp>
 
-        <div className="about-editorial">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] lg:items-start lg:gap-20">
           <FadeUp delay={0.05}>
-            <div className="about-editorial-lead">
-              <h2>Engineering with product sense and operational clarity.</h2>
-              <ul className="about-principles">
-                {principles.map((principle) => (
-                  <li key={principle.title}>
-                    <strong>{principle.title}</strong>
-                    <span>{principle.detail}</span>
-                  </li>
-                ))}
-              </ul>
+            <div className="max-w-2xl">
+              <h2 className="max-w-xl text-[clamp(2.2rem,4.5vw,4rem)] font-bold leading-[1.05] tracking-tight text-white">Architecture over hype. Systems that earn their place.</h2>
+              <div className="mt-8 space-y-5 text-base leading-8 text-zinc-400">
+                <p>I approach engineering as a product and operations discipline. Before choosing a framework or model, I look for the bottleneck: where information gets lost, decisions slow down, or repetitive work drains attention.</p>
+                <p>That means building dependable full-stack foundations, clear interfaces, and automation that people can trust. Through DevSquad, I turn those constraints into focused software that can ship, evolve, and solve a concrete operational problem.</p>
+              </div>
             </div>
           </FadeUp>
 
-          <div className="about-editorial-narrative">
-            <FadeUp delay={0.1}>
-              <p>
-                Writing code alone is not enough. The useful leverage comes from understanding the operational bottleneck, designing the right system architecture, and combining modern full-stack web technologies with autonomous AI workflows.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.15}>
-              <p>
-                Today I&apos;m founding DevSquad, building production SaaS applications, automating repetitive business logic with n8n, and engineering tools that solve concrete real-world problems.
-              </p>
-            </FadeUp>
-          </div>
+          <FadeUp delay={0.1}>
+            <aside className="border border-white/[0.08] bg-[#121212] p-5 sm:p-6" aria-label="Current building status">
+              <p className="mb-6 font-mono text-xs tracking-[0.14em] text-zinc-500">NOW / STATUS</p>
+              <div className="space-y-5 font-mono text-xs leading-6 tracking-[0.04em]">
+                <p className="text-emerald-accent">● STATUS: ACTIVE SHIPPING</p>
+                <p><span className="text-zinc-500">BUILDING:</span> <span className="text-zinc-300">DevSquad Client Systems &amp; SaaS MVPs</span></p>
+                <p><span className="text-zinc-500">EXPLORING:</span> <span className="text-zinc-300">Autonomous Multi-Agent Orchestration</span></p>
+              </div>
+            </aside>
+          </FadeUp>
         </div>
       </div>
     </section>

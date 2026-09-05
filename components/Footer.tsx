@@ -14,8 +14,19 @@ export function Footer() {
   }
 
   return (
-    <footer className="site-footer border-t border-white/[0.08] bg-[#0B0B0B] py-12">
-      <div className="container grid gap-8 lg:grid-cols-[1.2fr_1fr_1.2fr] lg:items-start lg:gap-10">
+    <footer className="site-footer border-t border-white/[0.08] bg-[#0B0B0B]">
+      <div className="border-b border-white/[0.08]">
+        <div className="container flex min-h-11 items-center gap-2 overflow-x-auto whitespace-nowrap py-3 font-mono text-[0.65rem] tracking-[0.08em] text-zinc-500">
+          <span className="animate-pulse text-emerald-accent" aria-hidden="true">●</span>
+          <span className="text-zinc-300">STATUS: ONLINE</span>
+          <span aria-hidden="true">·</span>
+          <span>FOCUS: DEVSQUAD &amp; n8n</span>
+          <span aria-hidden="true">·</span>
+          <span>DEPLOYED: PRODUCTION</span>
+        </div>
+      </div>
+
+      <div className="container grid gap-8 py-12 lg:grid-cols-[1.2fr_1fr_1.2fr] lg:items-start lg:gap-10">
         <div>
           <p className="font-mono text-xs tracking-[0.16em] text-white">ROHAN MAJEED</p>
           <p className="mt-2 max-w-xs font-mono text-xs leading-6 text-zinc-500">
@@ -43,7 +54,7 @@ export function Footer() {
               LinkedIn
             </a>
           </div>
-          <p>Rohan Majeed. Built for performance.</p>
+          <p>© 2026 Rohan Majeed. Built for performance.</p>
         </div>
       </div>
     </footer>

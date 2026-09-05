@@ -19,17 +19,16 @@ const profiles = [
 ];
 
 const engagementContext = [
-  "Available for Full-Stack & MVP contracts",
-  "Consulting on AI & n8n automation systems",
-  "Open to senior technical engineering roles",
+  "Full-stack product and MVP delivery",
+  "AI, RAG, and n8n automation systems",
+  "Senior technical engineering roles",
 ];
 
 const projectTypes = [
-  "Full-Stack Application",
-  "AI / RAG System",
+  "Full-Stack MVP",
+  "AI System",
   "n8n Automation",
   "Technical Role",
-  "Other",
 ];
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -166,14 +165,14 @@ function ContactForm() {
               {fieldErrors.name && <p id="contact-name-error" className="contact-field-error">{fieldErrors.name}</p>}
             </div>
             <div className="contact-field-group">
-              <label className="contact-field-label" htmlFor="contact-email">Email Address</label>
+              <label className="contact-field-label" htmlFor="contact-email">Work Email</label>
               <input id="contact-email" className="contact-field" name="email" type="email" placeholder="you@example.com" required aria-invalid={Boolean(fieldErrors.email)} aria-describedby={fieldErrors.email ? "contact-email-error" : undefined} onChange={() => clearFieldError("email")} />
               {fieldErrors.email && <p id="contact-email-error" className="contact-field-error">{fieldErrors.email}</p>}
             </div>
           </div>
 
           <div className="contact-field-group">
-            <label className="contact-field-label" htmlFor="contact-project-type">Project Type</label>
+            <label className="contact-field-label" htmlFor="contact-project-type">Project Scope</label>
             <select id="contact-project-type" className="contact-field contact-select" name="projectType" defaultValue="" required aria-invalid={Boolean(fieldErrors.projectType)} aria-describedby={fieldErrors.projectType ? "contact-project-type-error" : undefined} onChange={() => clearFieldError("projectType")}>
               <option value="" disabled>Select a focus</option>
               {projectTypes.map((projectType) => <option key={projectType}>{projectType}</option>)}
@@ -182,7 +181,7 @@ function ContactForm() {
           </div>
 
           <div className="contact-field-group">
-            <label className="contact-field-label" htmlFor="contact-message">Project Brief</label>
+            <label className="contact-field-label" htmlFor="contact-message">Brief Overview</label>
             <textarea id="contact-message" className="contact-field contact-textarea" name="message" rows={5} placeholder="Tell me about the problem, timeline, or requirements..." required aria-invalid={Boolean(fieldErrors.message)} aria-describedby={fieldErrors.message ? "contact-message-error" : undefined} onChange={() => clearFieldError("message")} />
             {fieldErrors.message && <p id="contact-message-error" className="contact-field-error">{fieldErrors.message}</p>}
           </div>
@@ -220,16 +219,15 @@ export function Contact() {
       <div className="container">
         <FadeUp><p className="section-kicker">Get In Touch</p></FadeUp>
 
-        <FadeUp delay={0.06}>
-          <div className="contact-intro">
-            <h2>Have a product, AI system, or process to build?</h2>
-            <p>Let&apos;s discuss architecture, scope, and implementation. Typically responding within 24 hours.</p>
-          </div>
-        </FadeUp>
-
         <div className="contact-layout">
           <FadeUp delay={0.1}>
             <div className="contact-direct">
+              <h2 className="max-w-xl text-[clamp(2.2rem,4.5vw,4rem)] font-bold leading-[1.05] tracking-tight text-white">
+                Have a product, system, or automation to build?
+              </h2>
+              <p className="mt-6 max-w-md text-base leading-7 text-zinc-400">
+                Let&apos;s discuss architecture, scope, and timeline. Typical response within 24 hours.
+              </p>
               <p className="contact-overline">Direct touchpoints</p>
               <div className="contact-email-block">
                 <Mail size={18} aria-hidden="true" />

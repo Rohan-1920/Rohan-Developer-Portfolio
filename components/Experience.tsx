@@ -21,7 +21,6 @@ export const experienceEntries: ExperienceEntry[] = [
     contributions: [
       "Founded DevSquad to build modern web products and AI-enabled software solutions.",
       "Lead product direction, architecture, engineering, and deployment for real client needs.",
-      "Build client MVPs and coordinate delivery workflows from planning through release.",
     ],
     technologies: ["Next.js", "TypeScript", "Node.js", "FastAPI", "n8n"],
   },
@@ -32,7 +31,6 @@ export const experienceEntries: ExperienceEntry[] = [
     contributions: [
       "Built a real-time chat application similar to WhatsApp with secure messaging, responsive UI, and scalable backend APIs.",
       "Developed a PDF Reporting & Data Visualization Automation System to generate structured reports and dashboard-ready insights.",
-      "Worked end-to-end on planning, implementation, testing, and deployment while collaborating with product requirements.",
     ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "WebSockets"],
   },
@@ -42,8 +40,7 @@ export const experienceEntries: ExperienceEntry[] = [
     period: "Dec 2025 - Present (5 months)",
     contributions: [
       "Building chatbot-based AI agent systems and automation workflows for real-world productivity use cases.",
-      "Working as an FTE-style independent developer on OpenClaw-oriented agent tooling and integrations.",
-      "Handling complete delivery cycle including architecture, implementation, iteration, and deployment.",
+      "Handling architecture, implementation, iteration, and deployment across independent software delivery work.",
     ],
     technologies: ["OpenAI APIs", "Claude API", "n8n", "Webhooks", "Node.js"],
   },
@@ -100,30 +97,27 @@ export function Experience() {
           </div>
         </FadeUp>
 
-        <div className="experience-timeline">
+        <div className="experience-timeline border-l border-white/[0.08] pl-6 sm:pl-8">
           {experienceEntries.map((item, index) => (
             <FadeUp key={`${item.organization}-${item.role}`} delay={0.1 + index * 0.07}>
-              <motion.article className="experience-entry" whileHover={{ x: 4 }} transition={{ duration: 0.22 }}>
-                <span className="experience-marker" aria-hidden="true" />
-                <div className="experience-entry-header">
+              <motion.article className="experience-entry relative pb-10 last:pb-0" transition={{ duration: 0.22 }}>
+                <span className="absolute -left-[2.05rem] top-1.5 size-2 rounded-full border border-zinc-500 bg-[#0A0A0A] sm:-left-[2.55rem]" aria-hidden="true" />
+                <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
                   <div>
-                    <h3>{item.role}</h3>
+                    <p className="mb-2 font-mono text-xs tracking-[0.12em] text-zinc-500">{item.role}</p>
                     {item.organizationUrl ? (
-                      <a href={item.organizationUrl} target="_blank" rel="noopener noreferrer">{item.organization}</a>
+                      <a className="text-xl font-semibold tracking-tight text-white no-underline hover:text-zinc-300" href={item.organizationUrl} target="_blank" rel="noopener noreferrer">{item.organization}</a>
                     ) : (
-                      <p>{item.organization}</p>
+                      <p className="text-xl font-semibold tracking-tight text-white">{item.organization}</p>
                     )}
                   </div>
-                  <time>{item.period}</time>
+                  <time className="font-mono text-xs tracking-[0.08em] text-zinc-500">{item.period}</time>
                 </div>
-                <div className="experience-entry-body">
-                  <ul>
-                    {item.contributions.map((contribution) => <li key={contribution}>{contribution}</li>)}
-                  </ul>
-                  <div className="experience-technologies" aria-label="Core technologies used">
-                    <p className="experience-technology-label">Core technologies</p>
-                    {item.technologies.map((technology) => <span key={technology}>{technology}</span>)}
-                  </div>
+                <ul className="mt-5 space-y-3 text-sm leading-6 text-zinc-400">
+                  {item.contributions.map((contribution) => <li className="relative pl-4 before:absolute before:left-0 before:top-[0.65rem] before:size-1 before:bg-emerald-accent before:content-['']" key={contribution}>{contribution}</li>)}
+                </ul>
+                <div className="mt-5 flex flex-wrap gap-2" aria-label="Core technologies used">
+                  {item.technologies.map((technology) => <span className="border border-white/[0.08] px-2 py-1 font-mono text-[11px] text-zinc-500" key={technology}>{technology}</span>)}
                 </div>
               </motion.article>
             </FadeUp>

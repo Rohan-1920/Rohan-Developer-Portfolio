@@ -6,21 +6,21 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 const capabilities = [
   {
     number: "01",
-    title: "Full-Stack Web Applications & SaaS",
+    title: "Full-Stack Web Applications",
     problem: "Product ideas often stall between fragile frontend mockups and disconnected backends.",
     solution: "End-to-end web engineering using Next.js, React, Node.js/FastAPI, and relational schemas.",
     deliverable: "Fast, maintainable, production-ready web applications with clean auth and data architecture.",
   },
   {
     number: "02",
-    title: "Autonomous AI Systems & RAG",
+    title: "Autonomous AI & RAG",
     problem: "Generic chatbot prompts fail when applied to proprietary business documents and workflows.",
     solution: "Custom Retrieval-Augmented Generation (RAG), vector stores, and contextual agents.",
     deliverable: "Domain-specific AI assistants that query proprietary data and return reliable, structured actions.",
   },
   {
     number: "03",
-    title: "Workflow & Operational Automation",
+    title: "Operational Automation",
     problem: "Teams waste hundreds of hours manually syncing data between CRMs, forms, and communication channels.",
     solution: "Autonomous n8n workflows, custom webhook pipelines, and API integrations.",
     deliverable: "Self-healing operational pipelines that eliminate manual data entry.",
@@ -77,11 +77,10 @@ export function Services() {
           {capabilities.map((capability, index) => (
             <Reveal key={capability.number} delay={0.08 + index * 0.06}>
               <motion.article
-                className="capability-row"
-                whileHover={{ x: 4 }}
+                className="capability-row grid grid-cols-1 gap-6 md:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.2fr)] md:gap-[clamp(2rem,6vw,6rem)]"
                 transition={{ duration: 0.2 }}
-                style={{ display: "grid", gridTemplateColumns: "minmax(220px, 0.8fr) minmax(0, 1.2fr)", gap: "clamp(2rem, 6vw, 6rem)", padding: "2rem 0", borderBottom: "1px solid var(--border)", borderLeft: "2px solid transparent", transition: "border-color 0.2s ease" }}
-                onMouseEnter={(event) => { event.currentTarget.style.borderLeftColor = "var(--accent)"; }}
+                style={{ padding: "2rem 0", borderBottom: "1px solid var(--border)", borderLeft: "2px solid transparent", transition: "border-color 0.2s ease" }}
+                onMouseEnter={(event) => { event.currentTarget.style.borderLeftColor = "var(--border-active)"; }}
                 onMouseLeave={(event) => { event.currentTarget.style.borderLeftColor = "transparent"; }}
               >
                 <div style={{ paddingLeft: "1rem" }}>

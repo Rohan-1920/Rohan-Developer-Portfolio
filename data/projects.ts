@@ -1,75 +1,58 @@
 export type Project = {
-  index: string;
+  id: string;
   title: string;
-  category: string;
-  year: string;
+  domain: string;
   problem: string;
   solution: string;
-  architecture: string[];
   stack: string[];
-  github: string | null;
-  live: string | null;
+  liveUrl: string | null;
+  githubUrl: string | null;
+  previewPlaceholder: string;
 };
 
 export const projects: Project[] = [
   {
-    index: "1",
-    title: "Twitter AI Assistant",
-    category: "SOCIAL AUTOMATION",
-    year: "2026",
-    problem: "Publishing social content and responding to new conversations manually makes consistent audience engagement difficult.",
-    solution: "A Node.js backend accepts content from n8n and uses a persistent Playwright session to publish posts and AI-assisted replies on X.",
-    architecture: [
-      "A one-time browser login persists session state so posting workflows do not handle credentials on every request.",
-      "A queued action layer serializes browser jobs and tracks processed replies to prevent duplicate automation.",
-    ],
-    stack: ["Node.js", "Express", "Playwright", "n8n", "OpenAI"],
-    github: "https://github.com/Rohan-1920/twitter-ai-assistant",
-    live: null,
+    id: "karigar-ai",
+    title: "Karigar AI",
+    domain: "Agentic AI & RAG",
+    problem: "Teams lose time searching across fragmented knowledge sources before they can act on operational questions.",
+    solution: "A retrieval-augmented agent layer grounds responses in indexed business context and routes complex requests through explicit tool workflows.",
+    stack: ["Next.js", "FastAPI", "LangChain", "Supabase"],
+    liveUrl: null,
+    githubUrl: null,
+    previewPlaceholder: "Grounded answer workspace",
   },
   {
-    index: "2",
+    id: "karobaar",
     title: "Karobaar",
-    category: "FULL-STACK SAAS",
-    year: "2025",
+    domain: "Digital Commerce",
     problem: "Small business operations need one dependable surface instead of disconnected product, customer, and workflow tools.",
     solution: "A full-stack business platform connects structured data, authenticated workflows, and responsive product interfaces.",
-    architecture: [
-      "Relational application state keeps operational records consistent across workflows.",
-      "A modular frontend keeps business actions discoverable without adding dashboard noise.",
-    ],
     stack: ["Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-    github: "https://github.com/Rohan-1920/Small-Business-Platform",
-    live: null,
+    liveUrl: null,
+    githubUrl: "https://github.com/Rohan-1920/Small-Business-Platform",
+    previewPlaceholder: "Commerce operations dashboard",
   },
   {
-    index: "3",
-    title: "Lumen YouTube Automation Agent",
-    category: "AI CONTENT AUTOMATION",
-    year: "2026",
-    problem: "Running a YouTube channel end to end requires disconnected research, production, review, publishing, and analytics workflows.",
-    solution: "An approval-first agent pipeline researches topics, writes scripts, generates media, assembles real MP4 videos, and schedules approved content.",
-    architecture: [
-      "Specialized agents separate strategy, scripting, thumbnails, SEO, production, publishing, and analytics responsibilities.",
-      "Persistent jobs, quality gates, rights checks, and real-MP4 validation keep automation observable and human-controlled.",
-    ],
-    stack: ["Node.js", "AI APIs", "FFmpeg", "SQLite", "YouTube API"],
-    github: "https://github.com/Rohan-1920/youtube-automation-agent-",
-    live: null,
+    id: "codevault",
+    title: "CodeVault",
+    domain: "Developer Tools",
+    problem: "Developers need a focused way to organize, retrieve, and reuse implementation knowledge without losing context.",
+    solution: "A structured code workspace brings searchable snippets, project context, and reusable references into one developer-facing interface.",
+    stack: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
+    liveUrl: null,
+    githubUrl: null,
+    previewPlaceholder: "Searchable code workspace",
   },
   {
-    index: "4",
-    title: "AI Automation / CRM",
-    category: "AUTOMATION SYSTEMS",
-    year: "2026",
+    id: "ai-crm-automation",
+    title: "AI CRM / Automation",
+    domain: "Automated Operations",
     problem: "Lead operations lose accuracy when capture, validation, qualification, and follow-up depend on manual handoffs.",
     solution: "An n8n pipeline validates incoming leads, scores them, updates CRM records, and triggers targeted communication.",
-    architecture: [
-      "Webhook and form listeners move lead data into a validated automation pipeline.",
-      "Conditional logic, duplicate detection, and execution monitoring keep handoffs auditable.",
-    ],
     stack: ["n8n", "Webhooks", "REST APIs", "JavaScript", "CRM"],
-    github: "https://github.com/Rohan-1920/AI-Powered-Lead-Generation-CRM-Automation-System",
-    live: null,
+    liveUrl: null,
+    githubUrl: "https://github.com/Rohan-1920/AI-Powered-Lead-Generation-CRM-Automation-System",
+    previewPlaceholder: "Lead qualification pipeline",
   },
 ];
