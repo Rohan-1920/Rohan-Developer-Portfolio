@@ -1,11 +1,15 @@
-import { ScrollyCanvas } from "@/components/ScrollyCanvas";
+import { Hero } from "@/components/Hero";
+import { Credibility } from "@/components/Credibility";
 import { NavBar } from "@/components/Overlay";
-import { About, Skills } from "@/components/About";
+import { About } from "@/components/About";
+import { CurrentlyBuilding } from "@/components/CurrentlyBuilding";
 import { Experience } from "@/components/Experience";
 import { Study } from "@/components/Study";
 import { Services } from "@/components/Services";
 import { Projects } from "@/components/Projects";
+import { TechnicalStack } from "@/components/TechnicalStack";
 import { Contact } from "@/components/Contact";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -13,47 +17,37 @@ export default function Home() {
       {/* Fixed navigation */}
       <NavBar />
 
-      {/* 1 — Scrollytelling hero (500vh) */}
-      <ScrollyCanvas />
+      {/* 1 — Authority-led hero */}
+      <Hero />
 
-      {/* 2 — About Me (bio + stats) */}
+      {/* 2 — Technical domains and verified profile link */}
+      <Credibility />
+
+      {/* 3 — About Me (bio + stats) */}
       <About />
 
-      {/* 3 — Skills & Expertise */}
-      <Skills />
+      {/* 4 — Active build signal */}
+      <CurrentlyBuilding />
 
-      {/* 4 — Experience */}
-      <Experience />
-
-      {/* 5 — Study */}
-      <Study />
-
-      {/* 6 — Services */}
-      <Services />
-
-      {/* 7 — Project Case Studies */}
+      {/* 5 — Project Case Studies */}
       <Projects />
 
-      {/* 8 — Contact */}
+      {/* 6 — Technical index */}
+      <TechnicalStack />
+
+      {/* 7 — Experience */}
+      <Experience />
+
+      {/* 8 — Study */}
+      <Study />
+
+      {/* 9 — Services */}
+      <Services />
+
+      {/* 10 — Contact */}
       <Contact />
 
-      {/* Footer */}
-      <footer
-        className="relative z-20 py-10"
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.07)",
-          background: "var(--bg)",
-        }}
-      >
-        <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
-          <span className="font-mono text-xs tracking-widest uppercase" style={{ color: "var(--muted)" }}>
-            © 2025 Rohan Majeed. All rights reserved.
-          </span>
-          <span className="font-mono text-xs tracking-widest" style={{ color: "var(--muted)" }}>
-            Built with Next.js · Framer Motion · Canvas
-          </span>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

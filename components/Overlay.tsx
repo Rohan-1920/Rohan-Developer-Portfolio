@@ -1,72 +1,61 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 
-const navLinks = ["Work", "About", "Skills", "Experience", "Study", "Services", "Contact"];
+const navLinks = [
+  { label: "Work", href: "#work" },
+  { label: "Capabilities", href: "#skills" },
+  { label: "Record", href: "#experience" },
+  { label: "About", href: "#about" },
+];
 
 export function NavBar() {
-  const { scrollY } = useScroll();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const bgOpacity  = useTransform(scrollY, [0, 80], [0, 1]);
-  const borderOpacity = useTransform(scrollY, [0, 80], [0, 1]);
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMenuOpen(false);
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [isMenuOpen]);
 
   return (
     <>
-      <motion.header
+      <header
         className="fixed top-0 left-0 right-0 z-50"
         style={{
-          backgroundColor: useTransform(bgOpacity, (v) => `rgba(13,13,13,${v * 0.9})`),
-          borderBottom: "1px solid",
-          borderColor: useTransform(borderOpacity, (v) => `rgba(255,255,255,${v * 0.08})`),
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
+          background: "var(--bg)",
+          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
           className="container"
-          style={{ height: "68px", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+          style={{ minHeight: "72px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1.5rem" }}
         >
-          {/* ── Logo ── */}
-          <a
-            href="#"
-            style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
-          >
-            {/* Icon mark */}
-            <div style={{
-              width: "32px", height: "32px", borderRadius: "8px",
-              background: "var(--accent)", display: "flex", alignItems: "center",
-              justifyContent: "center",
-            }}>
-              <span style={{ color: "#0d0d0d", fontWeight: 800, fontSize: "0.85rem", fontFamily: "var(--font-mono)", lineHeight: 1 }}>
-                RM
-              </span>
-            </div>
-            {/* Name — hidden on small screens */}
-            <span
-              className="hidden sm:block"
-              style={{ color: "var(--fg)", fontSize: "0.85rem", fontWeight: 600, letterSpacing: "0.05em" }}
-            >
-              Rohan Majeed
+          <a href="#about" style={{ display: "flex", alignItems: "baseline", gap: "0.65rem", textDecoration: "none", minWidth: 0 }}>
+            <span style={{ color: "var(--fg)", fontSize: "0.9rem", fontWeight: 600, letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
+              ROHAN MAJEED
+            </span>
+            <span className="hidden lg:inline" style={{ color: "var(--muted)", fontSize: "0.62rem", fontFamily: "var(--font-mono)", letterSpacing: "0.16em" }}>
+              DEVSQUAD
             </span>
           </a>
 
-          {/* ── Desktop nav ── */}
-          <nav
-            className="hidden md:flex items-center"
-            style={{ gap: "0.25rem" }}
-          >
+          <nav className="hidden md:flex items-center" aria-label="Primary navigation" style={{ gap: "0.25rem" }}>
             {navLinks.map((item) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
+                key={item.href}
+                href={item.href}
+                className="nav-link"
                 style={{
                   color: "var(--muted)",
-                  fontSize: "0.78rem",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.82rem",
+                  letterSpacing: "0.02em",
                   textDecoration: "none",
-                  padding: "0.4rem 0.85rem",
+                  padding: "0.65rem 0.8rem",
                   borderRadius: "6px",
                   transition: "color 0.2s, background 0.2s",
                 }}
@@ -81,42 +70,63 @@ export function NavBar() {
                   el.style.background = "transparent";
                 }}
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </nav>
 
-          {/* ── Right side: CTA ── */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            {/* Hire me button */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0 }}>
             <a
               href="#contact"
-              className="hidden sm:flex"
+              className="hidden sm:inline-flex"
               style={{
                 alignItems: "center", gap: "0.4rem",
-                background: "var(--accent)", color: "#0d0d0d",
-                fontSize: "0.75rem", fontWeight: 700,
-                letterSpacing: "0.12em", textTransform: "uppercase",
-                fontFamily: "var(--font-mono)",
-                padding: "0.5rem 1.1rem",
-                borderRadius: "9999px",
+                background: "var(--fg)", color: "var(--bg)",
+                fontSize: "0.78rem", fontWeight: 700, minHeight: "44px",
+                padding: "0.65rem 1rem",
+                borderRadius: "6px",
                 textDecoration: "none",
-                transition: "opacity 0.2s, transform 0.2s",
+                transition: "color 0.2s, background 0.2s, box-shadow 0.2s",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.opacity = "0.85";
-                (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)";
+                (e.currentTarget as HTMLAnchorElement).style.background = "var(--surface-hover)";
+                (e.currentTarget as HTMLAnchorElement).style.color = "var(--fg)";
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 0 1px var(--accent)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.opacity = "1";
-                (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
+                (e.currentTarget as HTMLAnchorElement).style.background = "var(--fg)";
+                (e.currentTarget as HTMLAnchorElement).style.color = "var(--bg)";
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
               }}
             >
-              Hire me
+              Let&apos;s Talk <span aria-hidden="true">→</span>
             </a>
+            <button
+              type="button"
+              className="md:hidden"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen((open) => !open)}
+              style={{ width: "44px", height: "44px", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "var(--fg)", background: "transparent", border: "1px solid var(--border)", borderRadius: "6px", cursor: "pointer" }}
+            >
+              {isMenuOpen ? <X size={19} /> : <Menu size={19} />}
+            </button>
           </div>
         </div>
-      </motion.header>
+
+        {isMenuOpen && (
+          <nav className="md:hidden container" aria-label="Mobile navigation" style={{ paddingTop: "0.75rem", paddingBottom: "1.25rem", borderTop: "1px solid var(--border)" }}>
+            {navLinks.map((item) => (
+              <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} style={{ display: "block", color: "var(--fg)", fontSize: "1.15rem", fontWeight: 600, padding: "0.9rem 0", borderBottom: "1px solid var(--border)", textDecoration: "none" }}>
+                {item.label}
+              </a>
+            ))}
+            <a href="#contact" onClick={() => setIsMenuOpen(false)} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "1rem", padding: "0.9rem 1rem", color: "var(--bg)", background: "var(--fg)", borderRadius: "6px", fontWeight: 700, textDecoration: "none" }}>
+              Let&apos;s Talk <span aria-hidden="true">→</span>
+            </a>
+          </nav>
+        )}
+      </header>
     </>
   );
 }

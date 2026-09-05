@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback, useState } from "react";
-import { useScroll, useMotionValueEvent, useTransform, motion, AnimatePresence } from "framer-motion";
+import { useScroll, useMotionValueEvent, useTransform, motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const TOTAL_FRAMES = 89;
 const SCROLL_HEIGHT = "450vh";
@@ -89,7 +89,7 @@ function Section3() {
         <span className="gradient-text-lime">create something</span><br />
         <span className="gradient-text-lime">extraordinary?</span>
       </h2>
-      <a href="#contact" style={{
+      <a className="hero-action" href="#contact" style={{
         display: "inline-flex", alignItems: "center", gap: "0.5rem",
         background: "var(--accent)", color: "#0d0d0d",
         fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.15em",
@@ -118,6 +118,24 @@ export function ScrollyCanvas() {
   const imagesRef       = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
   const [activeSection, setActiveSection] = useState(0);
+  const reduceMotion = useReducedMotion();
+
+  const renderFrame = useCallback((index: number) => {
+    const c = canvasRef.current; if (!c) return;
+    const ctx = c.getContext("2d"); if (!ctx) return;
+    const imgs = imagesRef.current; if (!imgs.length) return;
+    const safe = Math.max(0, Math.min(index, imgs.length - 1));
+    const img  = imgs[safe];
+    if (img?.complete && img.naturalWidth) {
+      drawCoverFit(ctx, img, c.width, c.height);
+    } else {
+      const hero = imgs[0];
+      if (hero?.complete && hero.naturalWidth) drawCoverFit(ctx, hero, c.width, c.height);
+      if (img && safe !== 0) img.onload = () => {
+        if (currentFrameRef.current === safe) drawCoverFit(ctx, img, c.width, c.height);
+      };
+    }
+  }, []);
 
   // Preload
   useEffect(() => {
@@ -153,24 +171,6 @@ export function ScrollyCanvas() {
     window.addEventListener("resize", resizeCanvas);
     return () => window.removeEventListener("resize", resizeCanvas);
   }, [resizeCanvas]);
-
-  // Draw frame
-  const renderFrame = useCallback((index: number) => {
-    const c = canvasRef.current; if (!c) return;
-    const ctx = c.getContext("2d"); if (!ctx) return;
-    const imgs = imagesRef.current; if (!imgs.length) return;
-    const safe = Math.max(0, Math.min(index, imgs.length - 1));
-    const img  = imgs[safe];
-    if (img?.complete && img.naturalWidth) {
-      drawCoverFit(ctx, img, c.width, c.height);
-    } else {
-      const hero = imgs[0];
-      if (hero?.complete && hero.naturalWidth) drawCoverFit(ctx, hero, c.width, c.height);
-      if (img && safe !== 0) img.onload = () => {
-        if (currentFrameRef.current === safe) drawCoverFit(ctx, img, c.width, c.height);
-      };
-    }
-  }, []);
 
   // Scroll
   const { scrollYProgress } = useScroll({
@@ -219,10 +219,10 @@ export function ScrollyCanvas() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -28 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, y: reduceMotion ? 0 : -12 }}
+              transition={{ duration: reduceMotion ? 0 : 0.24, ease: [0.16, 1, 0.3, 1] }}
               className="absolute inset-0"
               style={{ pointerEvents: activeSection === 3 ? "auto" : "none" }}
             >
@@ -236,15 +236,15 @@ export function ScrollyCanvas() {
           style={{ scaleX, background: "var(--accent)" }} />
 
         {/* Scroll hint */}
-        <motion.div style={{ opacity: hintOpacity }}
+        <motion.div style={{ opacity: reduceMotion ? 0 : hintOpacity }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-none">
           <span className="text-[10px] uppercase tracking-[0.25em] font-mono" style={{ color: "var(--muted)" }}>
             Scroll
           </span>
           <div className="w-px h-8 overflow-hidden" style={{ background: "var(--border)" }}>
-            <motion.div className="w-full h-full" style={{ background: "var(--accent)" }}
+            {!reduceMotion && <motion.div className="w-full h-full" style={{ background: "var(--accent)" }}
               animate={{ y: ["-100%", "100%"] }}
-              transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }} />
+              transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }} />}
           </div>
         </motion.div>
 

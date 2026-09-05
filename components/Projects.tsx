@@ -1,327 +1,121 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
-import { SiGithub } from "react-icons/si";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { projects, type Project } from "@/data/projects";
 
-const projects = [
-  {
-    id: 1,
-    index: "01",
-    title: "University Voice Assistant",
-    role: "Lead Developer",
-    year: "2025",
-    tags: ["JavaScript", "Python", "PostgreSQL", "HTML", "CSS"],
-    desc: "An AI-powered voice assistant built for university environments. Handles queries, navigation, and student support through natural language.",
-    accent: "#c8ff00",
-    link: "#",
-    github: "https://github.com/Rohan-1920/University-Voice-Assistant-",
-  },
-  {
-    id: 2,
-    index: "02",
-    title: "Hackathon-0",
-    role: "Full Stack Developer",
-    year: "2025",
-    tags: ["Python", "Claude API", "Kiro"],
-    desc: "A rapid-build hackathon project leveraging AI tooling. Built end-to-end in under 48 hours with modern AI-assisted development workflows.",
-    accent: "#60a5fa",
-    link: "#",
-    github: "https://github.com/Rohan-1920/Hackathon-0",
-  },
-  {
-    id: 3,
-    index: "03",
-    title: "Speckit PR",
-    role: "Backend Engineer",
-    year: "2024",
-    tags: ["Python", "PowerShell", "Shell Script"],
-    desc: "Automated PR specification toolkit. Streamlines code review workflows with intelligent spec generation and shell-based automation.",
-    accent: "#a78bfa",
-    link: "#",
-    github: "https://github.com/Rohan-1920/spec-kit",
-  },
-  {
-    id: 4,
-    index: "04",
-    title: "Lumina Studio",
-    role: "Creative Developer",
-    year: "2024",
-    tags: ["WebGL", "GLSL", "Canvas API"],
-    desc: "WebGL-powered interactive portfolio for a renowned architecture firm. Real-time ray-marched environments and generative visuals.",
-    accent: "#34d399",
-    link: "#",
-    github: "#",
-  },
-];
-
-// ─── Tag pill ─────────────────────────────────────────────────────────────────
-function TagPill({ label, accent }: { label: string; accent: string }) {
-  return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: "5px",
-        padding: "4px 10px",
-        borderRadius: "6px",
-        fontSize: "0.68rem",
-        fontFamily: "var(--font-mono)",
-        letterSpacing: "0.06em",
-        fontWeight: 500,
-        background: `${accent}12`,
-        color: accent,
-        border: `1px solid ${accent}28`,
-      }}
-    >
-      {label}
-    </span>
-  );
-}
-
-// ─── Card ─────────────────────────────────────────────────────────────────────
-function ProjectCard({
-  project,
-  index,
-  hoveredId,
-  onHover,
-}: {
-  project: (typeof projects)[0];
-  index: number;
-  hoveredId: number | null;
-  onHover: (id: number | null) => void;
-}) {
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-8%" });
-  const isHovered = hoveredId === project.id;
-  const isDimmed  = hoveredId !== null && !isHovered;
+  const reduceMotion = useReducedMotion();
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      onMouseEnter={() => onHover(project.id)}
-      onMouseLeave={() => onHover(null)}
-      style={{
-        position: "relative",
-        borderRadius: "20px",
-        overflow: "hidden",
-        cursor: "pointer",
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "300px",
-        background: isHovered ? "rgba(255,255,255,0.055)" : "rgba(255,255,255,0.025)",
-        border: `1px solid ${isHovered ? `${project.accent}35` : "rgba(255,255,255,0.08)"}`,
-        opacity: isDimmed ? 0.38 : 1,
-        transform: isHovered ? "translateY(-5px)" : "translateY(0)",
-        transition: "opacity 0.3s, transform 0.3s, background 0.3s, border-color 0.3s",
-      }}
+      transition={{ duration: reduceMotion ? 0 : 0.24, delay: reduceMotion ? 0 : delay, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Accent top line */}
-      <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: "2px",
-        background: project.accent,
-        opacity: isHovered ? 1 : 0,
-        transition: "opacity 0.3s",
-      }} />
-
-      {/* Top glow */}
-      <div style={{
-        position: "absolute", inset: 0, pointerEvents: "none",
-        background: `radial-gradient(500px circle at 50% -20%, ${project.accent}0e, transparent 65%)`,
-        opacity: isHovered ? 1 : 0,
-        transition: "opacity 0.4s",
-      }} />
-
-      <div style={{ position: "relative", zIndex: 1, padding: "1.75rem", display: "flex", flexDirection: "column", flex: 1 }}>
-
-        {/* ── Header row ── */}
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "1.5rem" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            {/* Index */}
-            <span style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)", color: "var(--muted)", letterSpacing: "0.2em" }}>
-              {project.index}
-            </span>
-            {/* Role badge */}
-            <span style={{
-              fontSize: "0.65rem", fontFamily: "var(--font-mono)",
-              letterSpacing: "0.15em", textTransform: "uppercase",
-              padding: "3px 10px", borderRadius: "5px",
-              background: `${project.accent}15`,
-              color: project.accent,
-              border: `1px solid ${project.accent}30`,
-              width: "fit-content",
-            }}>
-              {project.role}
-            </span>
-          </div>
-
-          {/* Quick actions */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${project.title} GitHub repository`}
-              style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-                textDecoration: "none",
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "var(--fg)",
-                transition: "all 0.25s",
-              }}
-            >
-              <SiGithub size={14} />
-            </a>
-            <div
-              style={{
-                width: "36px", height: "36px", borderRadius: "50%",
-                display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-                background: isHovered ? project.accent : "rgba(255,255,255,0.06)",
-                border: `1px solid ${isHovered ? project.accent : "rgba(255,255,255,0.1)"}`,
-                transform: isHovered ? "translate(2px,-2px)" : "translate(0,0)",
-                transition: "all 0.3s",
-              }}
-            >
-              <ArrowUpRight size={15} style={{ color: isHovered ? "#0d0d0d" : "var(--fg)" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* ── Title ── */}
-        <h3 style={{
-          fontSize: "clamp(1.4rem, 2.5vw, 1.9rem)",
-          fontWeight: 700,
-          letterSpacing: "-0.02em",
-          lineHeight: 1.1,
-          color: "var(--fg)",
-          marginBottom: "0.75rem",
-        }}>
-          {project.title}
-        </h3>
-
-        {/* ── Description on hover ── */}
-        <AnimatePresence>
-          {isHovered && (
-            <motion.p
-              key="desc"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              style={{ fontSize: "0.875rem", lineHeight: 1.7, color: "var(--muted)", overflow: "hidden", marginBottom: "0.75rem" }}
-            >
-              {project.desc}
-            </motion.p>
-          )}
-        </AnimatePresence>
-
-        {/* ── Footer: tags + year ── */}
-        <div style={{
-          marginTop: "auto",
-          paddingTop: "1.25rem",
-          borderTop: "1px solid rgba(255,255,255,0.07)",
-        }}>
-          {/* Tech tags */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "0.875rem" }}>
-            {project.tags.map((tag) => (
-              <TagPill key={tag} label={tag} accent={project.accent} />
-            ))}
-          </div>
-
-          {/* Year + CTA row */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--muted)", letterSpacing: "0.1em" }}>
-              {project.year}
-            </span>
-            <AnimatePresence>
-              {isHovered && (
-                <motion.span
-                  key="cta"
-                  initial={{ opacity: 0, x: -6 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -6 }}
-                  transition={{ duration: 0.2 }}
-                  style={{
-                    display: "flex", alignItems: "center", gap: "4px",
-                    fontSize: "0.68rem", fontFamily: "var(--font-mono)",
-                    letterSpacing: "0.12em", textTransform: "uppercase",
-                    color: project.accent,
-                  }}
-                >
-                  View project <ArrowUpRight size={11} />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-
-      </div>
+      {children}
     </motion.div>
   );
 }
 
-// ─── Section ──────────────────────────────────────────────────────────────────
-export function Projects() {
-  const headingRef = useRef<HTMLDivElement>(null);
-  const isHeadingInView = useInView(headingRef, { once: true });
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
-
+function ArchitecturePreview({ project }: { project: Project }) {
   return (
-    <section
-      id="work"
-      className="relative z-20 px-0"
-      style={{ background: "var(--bg)", paddingTop: "12rem", paddingBottom: "7rem" }}
-    >
-      <div className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)" }}
-      />
+    <div className="project-preview" aria-label={`${project.title} architecture preview`}>
+      <div className="project-preview-bar">
+        <span className="project-preview-dots" aria-hidden="true"><i /><i /><i /></span>
+        <span className="project-preview-path">/{project.title.toLowerCase().replaceAll(" ", "-")}</span>
+      </div>
+      <div className="project-diagram">
+        {project.preview.map((node, index) => (
+          <div className="project-diagram-node" key={node}>
+            <span className="project-diagram-index">0{index + 1}</span>
+            <span>{node}</span>
+            {index < project.preview.length - 1 && <ArrowUpRight className="project-diagram-arrow" size={14} aria-hidden="true" />}
+          </div>
+        ))}
+      </div>
+      <p className="project-preview-note">Architecture view · No screenshot available</p>
+    </div>
+  );
+}
 
+function StackTag({ label }: { label: string }) {
+  return <span className="project-stack-tag">{label}</span>;
+}
+
+function ProjectActions({ project }: { project: Project }) {
+  return (
+    <div className="project-actions">
+      {project.live ? (
+        <a href={project.live} target="_blank" rel="noreferrer" className="project-action project-action-primary">
+          Live System <ExternalLink size={14} aria-hidden="true" />
+        </a>
+      ) : null}
+      {project.github ? (
+        <a href={project.github} target="_blank" rel="noreferrer" className="project-action">
+          Source Code <ArrowUpRight size={14} aria-hidden="true" />
+        </a>
+      ) : (
+        <span className="project-action project-action-disabled">No public source listed</span>
+      )}
+    </div>
+  );
+}
+
+export function Projects() {
+  return (
+    <section id="work" className="relative z-20 project-section" style={{ background: "var(--bg)" }}>
       <div className="container">
-        {/* Header */}
-        <div ref={headingRef} style={{ marginBottom: "3.5rem", paddingTop: "2rem" }}>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={isHeadingInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            style={{ color: "var(--accent)", fontSize: "0.7rem", letterSpacing: "0.3em", fontFamily: "var(--font-mono)", textTransform: "uppercase", marginBottom: "1rem" }}
-          >
-            Selected Work
-          </motion.p>
+        <Reveal>
+          <p className="section-kicker">Selected work</p>
+          <div className="project-section-heading">
+            <h2>Engineering proof, not just project tiles.</h2>
+            <p>Verified builds presented through the constraints, decisions, and systems behind them.</p>
+          </div>
+        </Reveal>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }} animate={isHeadingInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.65, delay: 0.08 }}
-            style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "2rem", flexWrap: "wrap" }}
-          >
-            <h2 style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 700, lineHeight: 1, color: "var(--fg)", letterSpacing: "-0.02em" }}>
-              Project Case Studies
-            </h2>
-            <p style={{ color: "var(--muted)", fontSize: "0.875rem", lineHeight: 1.7, maxWidth: "260px", textAlign: "right" }}>
-              Real projects built with real tech — hover a card to see more.
-            </p>
-          </motion.div>
-        </div>
+        <div className="project-case-studies" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
+          {projects.map((project, index) => (
+            <Reveal key={project.index} delay={index * 0.05}>
+              <article className={`project-case-study ${index % 2 === 1 ? "project-case-study-reverse" : ""}`}>
+                <ArchitecturePreview project={project} />
+                <div className="project-case-study-copy">
+                  <div className="project-case-study-meta">
+                    <span>{project.index} {"//"} {project.category}</span>
+                    <span>{project.year}</span>
+                  </div>
+                  <h3>{project.title}</h3>
+                  <p className="project-role">{project.role}</p>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {projects.map((project, i) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={i}
-              hoveredId={hoveredId}
-              onHover={setHoveredId}
-            />
+                  <div className="project-narrative">
+                    <div>
+                      <p className="project-field-label">Problem statement</p>
+                      <p>{project.problem}</p>
+                    </div>
+                    <div>
+                      <p className="project-field-label">Engineered solution</p>
+                      <p>{project.solution}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="project-field-label">Architecture highlights</p>
+                    <ul className="project-highlights">
+                      {project.architecture.map((highlight) => <li key={highlight}>{highlight}</li>)}
+                    </ul>
+                  </div>
+
+                  <div className="project-stack">
+                    {project.stack.map((technology) => <StackTag key={technology} label={technology} />)}
+                  </div>
+                  <ProjectActions project={project} />
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>
